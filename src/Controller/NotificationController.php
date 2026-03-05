@@ -48,7 +48,7 @@ final class NotificationController
         $message = $data['message'] ?? null;
 
         if (!is_string($to) || $to === '' || strlen($to) > 255 || !filter_var($to, FILTER_VALIDATE_EMAIL) ) {
-            $errors['subject'] = 'invalid email';
+            $errors['to'] = 'invalid email';
         }
 
         if (!is_string($subject) || trim($subject) || strlen($subject) > 255 ) {
