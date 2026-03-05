@@ -2,7 +2,9 @@
 
 namespace App\Service;
 
-final class NotificationService
+use App\Interface\MailerTransportInterface;
+
+final class NotificationService implements MailerTransportInterface
 {
     public function __construct(
         private MailerTransportInterface $transport,
