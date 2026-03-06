@@ -26,7 +26,7 @@ final class NotificationController
         if (!is_array($data) || array_is_list($data)) {
             return new JsonResponse([
                 'status' => 'error',
-                'error' => ['body' => 'invalid JSON format (expected objet)'],
+                'error' => ['body' => 'invalid JSON format (expected object)'],
             ], 400);
         }
 
@@ -38,12 +38,20 @@ final class NotificationController
             ], 400);
         }
 
-        $this->service->notify($data['to'], $data['subject'], $data['message']);
+        try {
+            $this->service->notify($data['to'], $data['subject'], $data['message']);
+            return new JsonResponse([
+                'status' => 'success',
+                'message' => 'Notification sent',
+            ], 200);
+        } catch (\Throwable $e) {
+            return new JsonResponse([
+                'status' => 'error',
+                'error' => ['internal' => 'notification failed'],
+            ], 500);
+        }
 
-        return new JsonResponse([
-            'status' => 'success',
-            'message' => 'Notification sent',
-        ], 200);
+
     }
 
     private function validate(array $data) : array
