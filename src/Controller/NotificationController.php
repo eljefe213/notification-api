@@ -23,6 +23,13 @@ final class NotificationController
             ], 400);
         }
 
+        if (!is_array($data) || array_is_list($data)) {
+            return new JsonResponse([
+                'status' => 'error',
+                'error' => ['body' => 'invalid JSON format (expected objet)'],
+            ], 400);
+        }
+
         $errors = $this->validate($data);
         if ($errors !== []) {
             return new JsonResponse([
